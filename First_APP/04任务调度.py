@@ -14,7 +14,8 @@ from kivy.uix.screenmanager import ScreenManager,Screen
 # 加入时钟
 from kivy.clock import Clock
 
-import socket_client
+import First_APP.socket_client
+import sys
 kivy.require("1.10.1")
 
 
@@ -92,7 +93,12 @@ class InfoPage(GridLayout):
     def update_text_width(self,*_):
         self.message.text_size = (self.message.width*0.9,None)
 class ChatPage(GridLayout):
-    def __init__(self):
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        self.cols = 1
+        self.add_widget(Label(text="Hey at least it worked up to this point！！！"))
+
+
 
 class EpicApp(App):
     def build(self):
@@ -116,6 +122,10 @@ class EpicApp(App):
         screen.add_widget(self.chat_page)
         self.screen_manager.add_widget(screen)
 
+def show_error(message):
+    chat_app.info_page.update_info(message)
+    chat_app.screen_manager.current="Info"
+    Clock.schedule_once(sys.exit,10)
 
 if __name__ == '__main__':
     chat_app = EpicApp()
